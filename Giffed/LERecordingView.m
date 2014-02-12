@@ -49,11 +49,6 @@
     [self initializeCaptureSession];
 }
 
-- (void)dealloc
-{
-    [self unregisterForNotifications];
-}
-
 - (NSData *)dataForLastRecording
 {
     return [NSData dataWithContentsOfFile:[self currentVideoPath]];
@@ -69,8 +64,6 @@
     [self initializeCaptureConnection];
     
     [self beginRecordingWithDevice:self.backFacingCamera];
-    
-    [self registerForNotifications];
 }
 
 - (void)initializeCameraReferences
@@ -107,66 +100,6 @@
     
     self.fileOutput = [[AVCaptureMovieFileOutput alloc] init];
     [self.captureSession addOutput:self.fileOutput];
-}
-
-- (void)registerForNotifications
-{
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
-}
-
-- (void)unregisterForNotifications
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)orientationDidChange:(NSNotification *)notification
-{
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    [self updateVideoOrientationWithDeviceOrientation:orientation];
-}
-
-- (void)updateVideoOrientationWithDeviceOrientation:(UIDeviceOrientation)deviceOrientation
-{
-    AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
-    CATransform3D transform = CATransform3DIdentity;
-    
-    switch(deviceOrientation)
-    {
-        case UIDeviceOrientationLandscapeLeft:
-        {
-            videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-            transform = CATransform3DMakeRotation(-M_PI_2, 0.0f, 0.0f, 1.0f);
-            
-            break;
-        }
-        
-        case UIDeviceOrientationLandscapeRight:
-        {
-            videoOrientation = AVCaptureVideoOrientationLandscapeRight;
-            transform = CATransform3DMakeRotation(M_PI_2, 0.0f, 0.0f, 1.0f);
-            
-            break;
-        }
-        
-        case UIDeviceOrientationPortrait:
-        {
-            videoOrientation = AVCaptureVideoOrientationPortrait;
-            break;
-        }
-        
-        case UIDeviceOrientationPortraitUpsideDown:
-        {
-            videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
-            break;
-        }
-        
-        default:
-            return;
-    }
-    
-    self.previewLayer.transform = transform;
-    self.captureConnection.videoOrientation = videoOrientation;
 }
 
 - (void)beginRecordingWithDevice:(AVCaptureDevice *)device

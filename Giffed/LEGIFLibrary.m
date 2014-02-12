@@ -100,4 +100,29 @@
     [data writeToFile:path atomically:YES];
 }
 
+- (void)deleteEntry:(LEGIFLibraryEntry *)entryToDelete
+{
+    NSMutableArray *entries = [[self entries] mutableCopy];
+    
+    NSInteger indexToRemove = -1;
+    NSInteger index = 0;
+    for(LEGIFLibraryEntry *entry in entries)
+    {
+         if([entry.filePath isEqualToString:entry.filePath])
+         {
+            indexToRemove = index;
+            break;
+         }
+        
+         ++index;
+    }
+    
+    if(indexToRemove >= 0)
+    {
+        [entries removeObjectAtIndex:indexToRemove];
+    }
+    
+    [self saveEntries:entries];
+}
+
 @end

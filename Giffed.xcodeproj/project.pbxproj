@@ -40,6 +40,8 @@
 		E831E73B188F72430064CE3F /* LEImgurClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E831E73A188F72430064CE3F /* LEImgurClient.m */; };
 		E85B7633188F47B400359D56 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E85B7632188F47B400359D56 /* MediaPlayer.framework */; };
 		E85B7638188F545400359D56 /* LEGiffedClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E85B7637188F545400359D56 /* LEGiffedClient.m */; };
+		E87C7E0E18AAEDDA0090E0DB /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = E87C7E0D18AAEDDA0090E0DB /* UIImage+animatedGIF.m */; };
+		E87C7E1018AAEDE60090E0DB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E87C7E0F18AAEDE60090E0DB /* ImageIO.framework */; };
 		E8CD6EF8188AF43F003FA530 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8CD6EF7188AF43F003FA530 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +112,9 @@
 		E85B7632188F47B400359D56 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E85B7636188F545400359D56 /* LEGiffedClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEGiffedClient.h; sourceTree = "<group>"; };
 		E85B7637188F545400359D56 /* LEGiffedClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEGiffedClient.m; sourceTree = "<group>"; };
+		E87C7E0C18AAEDDA0090E0DB /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		E87C7E0D18AAEDDA0090E0DB /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		E87C7E0F18AAEDE60090E0DB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		E8CD6EF7188AF43F003FA530 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -118,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E87C7E1018AAEDE60090E0DB /* ImageIO.framework in Frameworks */,
 				E831E738188F71020064CE3F /* MobileCoreServices.framework in Frameworks */,
 				E85B7633188F47B400359D56 /* MediaPlayer.framework in Frameworks */,
 				E8CD6EF8188AF43F003FA530 /* AVFoundation.framework in Frameworks */,
@@ -162,6 +168,7 @@
 		E81FAFE3188AD79400FE89B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E87C7E0F18AAEDE60090E0DB /* ImageIO.framework */,
 				E831E737188F71020064CE3F /* MobileCoreServices.framework */,
 				E85B7632188F47B400359D56 /* MediaPlayer.framework */,
 				E8CD6EF7188AF43F003FA530 /* AVFoundation.framework */,
@@ -176,6 +183,7 @@
 		E81FAFEA188AD79400FE89B5 /* Giffed */ = {
 			isa = PBXGroup;
 			children = (
+				E87C7E0B18AAEDDA0090E0DB /* UIImage+animatedGIF */,
 				E831E70B188F55D40064CE3F /* AFNetworking */,
 				E81FAFF3188AD79400FE89B5 /* LEAppDelegate.h */,
 				E81FAFF4188AD79400FE89B5 /* LEAppDelegate.m */,
@@ -257,6 +265,15 @@
 				E831E71E188F55DD0064CE3F /* AFURLSessionManager.m */,
 			);
 			name = AFNetworking;
+			sourceTree = "<group>";
+		};
+		E87C7E0B18AAEDDA0090E0DB /* UIImage+animatedGIF */ = {
+			isa = PBXGroup;
+			children = (
+				E87C7E0C18AAEDDA0090E0DB /* UIImage+animatedGIF.h */,
+				E87C7E0D18AAEDDA0090E0DB /* UIImage+animatedGIF.m */,
+			);
+			path = "UIImage+animatedGIF";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +387,7 @@
 				E831E721188F55DD0064CE3F /* AFHTTPSessionManager.m in Sources */,
 				E831E725188F55DD0064CE3F /* AFURLRequestSerialization.m in Sources */,
 				E81FB01E188AEF4100FE89B5 /* LERecordingView.m in Sources */,
+				E87C7E0E18AAEDDA0090E0DB /* UIImage+animatedGIF.m in Sources */,
 				E831E736188F6E7D0064CE3F /* LEGIFLibraryEntryCell.m in Sources */,
 				E85B7638188F545400359D56 /* LEGiffedClient.m in Sources */,
 				E81FAFFB188AD79400FE89B5 /* LEViewController.m in Sources */,
@@ -506,6 +524,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Giffed/Giffed-Prefix.pch";
 				INFOPLIST_FILE = "Giffed/Giffed-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "62CD40CB-96C3-447B-821A-044BA4682835";
 				WRAPPER_EXTENSION = app;
@@ -520,6 +539,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Giffed/Giffed-Prefix.pch";
 				INFOPLIST_FILE = "Giffed/Giffed-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7A9F3D50-37C3-4095-94C1-CAD714EF24F8";
 				WRAPPER_EXTENSION = app;

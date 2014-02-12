@@ -15,6 +15,8 @@
 
 #import "LEImgurClient.h"
 
+#import "UIImage+animatedGIF/UIImage+animatedGIF.h"
+
 #define LEGIFLibraryEntryCellIdentifier (@"entry")
 
 @interface LEGIFLibraryViewController () <LEGIFLibraryEntryCellDelegate>
@@ -42,7 +44,7 @@
 {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"Library", nil);
+    self.title = NSLocalizedString(@"Your GIFs", nil);
     
     self.library = [LEGIFLibrary sharedLibrary];
     self.entries = [self.library.entries sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"createdDate" ascending:NO] ]];
@@ -86,8 +88,22 @@
     
     cell.createdLabel.text = [dateFormatter stringFromDate:entry.createdDate];
     
-    UIImage *image = [UIImage imageWithContentsOfFile:entry.filePath];
-    cell.previewImageView.image = image;
+    __weak typeof(cell) weakCell = cell;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        NSURL *url = [NSURL fileURLWithPath:entry.filePath];
+        UIImage *image = [UIImage animatedImageWithAnimatedGIFURL:url];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            __strong typeof(cell) strongCell = weakCell;
+            if(strongCell)
+            {
+                cell.previewImageView.image = image;
+                [cell.previewImageView startAnimating];
+            }
+        });
+    });
     
     return cell;
 }
@@ -212,6 +228,29 @@
         [self.loadingView removeFromSuperview];
         [self.activityIndicator stopAnimating];
     }];
+}
+
+- (void)deleteGIFAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger index = indexPath.row;
+    LEGIFLibraryEntry *entry = self.entries[index];
+    
+    [self.library deleteEntry:entry];
+    self.entries = self.library.entries;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [self deleteGIFAtIndexPath:indexPath];
+        [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
 @end

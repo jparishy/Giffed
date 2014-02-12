@@ -24,9 +24,10 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
 
 @property (nonatomic, weak) IBOutlet UIButton *button;
 
-@property (nonatomic, weak) IBOutlet UIButton *previewButton;
 @property (nonatomic, weak) IBOutlet UIButton *flipButton;
+
 @property (nonatomic, weak) IBOutlet UIButton *saveButton;
+@property (nonatomic, weak) IBOutlet UIButton *discardButton;
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 
@@ -37,6 +38,11 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
 
 @property (nonatomic, assign) BOOL inPreviewMode;
 
+@property (nonatomic, strong) UIDynamicAnimator *animator;
+
+@property (nonatomic, assign) CGRect originalDiscardFrame;
+@property (nonatomic, assign) CGRect originalSaveFrame;
+
 @end
 
 @implementation LEViewController
@@ -45,16 +51,20 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
 {
     [super viewDidLoad];
     
-    self.activityIndicator.alpha = 0.0f;
+    self.title = NSLocalizedString(@"Giffed", nil);
     
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.recordingView.superview];
+    
+    self.originalDiscardFrame = self.discardButton.frame;
+    self.originalSaveFrame    = self.saveButton.frame;
+    
+    self.activityIndicator.alpha = 0.0f;
     self.inPreviewMode = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -70,15 +80,13 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 #pragma mark - Button state management
 
 - (IBAction)recordButtonPressedDown:(UIButton *)button
 {
+    if(self.inPreviewMode)
+        return;
+    
     [self updateTitleForButton:button recording:YES];
     
     [self.recordingView startRecording];
@@ -86,9 +94,8 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
 
 - (IBAction)recordButtonReleased:(UIButton *)button
 {
-    [self updateTitleForButton:button recording:NO];
-    
     [self.recordingView finishRecording];
+    self.inPreviewMode = YES;
     
     // File reading hack.
     double delayInSeconds = 0.25f;
@@ -97,13 +104,10 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     __weak typeof(self) weakSelf = self;
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf toggleRecordingView];
+        [strongSelf.recordingView togglePreview];
     });
-}
-
-- (IBAction)previewButtonPressed:(UIButton *)button
-{
-    [self toggleRecordingView];
+    
+    [self animateConfirmationButtonsOnScreen];
 }
 
 - (void)toggleRecordingView
@@ -141,6 +145,66 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     [self startActionProgress];
 }
 
+- (IBAction)discardPressed:(UIButton *)button
+{
+    [self toggleRecordingView];
+    [self animateConfirmationButtonsOffScreen];
+}
+
+- (void)animateConfirmationButtonsOnScreen
+{
+    [self.animator removeAllBehaviors];
+    
+    CGFloat margin = 20.0f;
+    
+    CGPoint discardPosition = self.discardButton.center;
+    discardPosition.x = margin + (CGRectGetWidth(self.discardButton.frame) / 2.0f);
+    
+    CGPoint savePosition = self.discardButton.center;
+    savePosition.x = CGRectGetWidth(self.view.bounds) - margin - (CGRectGetWidth(self.saveButton.frame) / 2.0f);
+    
+    UISnapBehavior *discardSnap = [[UISnapBehavior alloc] initWithItem:self.discardButton snapToPoint:discardPosition];
+    UISnapBehavior *saveSnap = [[UISnapBehavior alloc] initWithItem:self.saveButton snapToPoint:savePosition];
+    
+    [self.animator addBehavior:discardSnap];
+    [self.animator addBehavior:saveSnap];
+}
+
+- (void)animateConfirmationButtonsOffScreen
+{
+    [self.animator removeAllBehaviors];
+    
+    UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[ self.discardButton, self.saveButton ]];
+    
+    __weak typeof(self) weakSelf = self;
+    gravity.action = ^{
+        
+        __strong typeof(self) strongSelf = weakSelf;
+        
+        BOOL done = YES;
+        
+        NSArray *views = @[ strongSelf.discardButton, strongSelf.saveButton ];
+        for(UIView *view in views)
+        {
+            if(CGRectGetMinY(view.frame) < CGRectGetMaxY(view.superview.bounds))
+            {
+                done = NO;
+                break;
+            }
+        }
+        
+        if(done)
+        {
+            [strongSelf.animator removeAllBehaviors];
+            
+            strongSelf.discardButton.frame = strongSelf.originalDiscardFrame;
+            strongSelf.saveButton.frame    = strongSelf.originalSaveFrame;
+        }
+    };
+    
+    [self.animator addBehavior:gravity];
+}
+
 - (void)updateTitleForButton:(UIButton *)button recording:(BOOL)recording
 {
     button.titleLabel.numberOfLines = 0;
@@ -157,6 +221,11 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
         title = NSLocalizedString(@"Hold to Record", nil);
     }
     
+    [self updateButton:button withTitleForAllStates:title];
+}
+
+- (void)updateButton:(UIButton *)button withTitleForAllStates:(NSString *)title
+{
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateHighlighted];
     [button setTitle:title forState:UIControlStateSelected];
@@ -169,17 +238,33 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     
     if(self.inPreviewMode)
     {
-        [self.previewButton setTitle:NSLocalizedString(@"Close", nil) forState:UIControlStateNormal];
+        NSString *recordTitle = NSLocalizedString(@"Is it a keeper?", nil);
+        [self updateButton:self.button withTitleForAllStates:recordTitle];
+        
+        self.button.enabled = NO;
     }
     else
     {
-        [self.previewButton setTitle:NSLocalizedString(@"Preview", nil) forState:UIControlStateNormal];
+        [self updateTitleForButton:self.button recording:NO];
+        
+        self.button.enabled = YES;
     }
     
-    self.saveButton.hidden = !self.inPreviewMode;
-    self.flipButton.hidden = self.inPreviewMode;
+    UIColor *buttonBackgroundColor = [UIColor colorWithRed:0.0f green:(103.0f/255.0f) blue:(221.0f/255.0f) alpha:1.0f];
+    if(self.inPreviewMode)
+    {
+        buttonBackgroundColor = [buttonBackgroundColor colorWithAlphaComponent:0.5f];
+    }
     
-    self.button.enabled = !self.inPreviewMode;
+    [UIView animateWithDuration:1.0f animations:^{
+        
+        self.button.backgroundColor = buttonBackgroundColor;
+    }];
+        
+    [UIView animateWithDuration:0.4f animations:^{
+        
+        self.flipButton.alpha = self.inPreviewMode ? 0.0f : 1.0f;
+    }];
 }
 
 - (void)handleError:(NSError *)error
@@ -202,7 +287,6 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     
     [self.activityIndicator startAnimating];
     
-    self.previewButton.enabled = NO;
     self.saveButton.enabled = NO;
     self.button.enabled = NO;
 }
@@ -216,36 +300,10 @@ typedef NS_ENUM(NSInteger, LERecordingMode)
     
     [self.activityIndicator stopAnimating];
     
-    self.previewButton.enabled = YES;
     self.saveButton.enabled = YES;
     self.button.enabled = YES;
-}
-
-#pragma mark - Constraints manamagement
-
-- (void)updateViewConstraints
-{
-    [super updateViewConstraints];
     
-    [self updateButtonLayoutConstraints];
-}
-
-- (void)updateButtonLayoutConstraints
-{
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    const CGFloat baseWidth = (CGRectGetHeight(screenBounds) - CGRectGetWidth(screenBounds)) / 2.0f;
-    const CGFloat baseHeight = CGRectGetWidth(screenBounds);
-    
-    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-    {
-        self.buttonHeightConstraint.constant = baseHeight;
-        self.buttonWidthConstraint.constant = baseWidth;
-    }
-    else
-    {\
-        self.buttonWidthConstraint.constant = baseHeight;
-        self.buttonHeightConstraint.constant = baseWidth;
-    }
+    [self animateConfirmationButtonsOffScreen];
 }
 
 - (void)sendSaveRequestWithMovieData:(NSData *)movieData completion:(void(^)(NSData *responseData, NSError *error))completion

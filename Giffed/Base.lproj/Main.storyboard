@@ -10,6 +10,11 @@
                 <navigationController definesPresentationContext="YES" id="H2b-5c-6ly" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UnN-pn-lb1">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1058823529" green="0.1137254902" blue="0.1058823529" alpha="0.90000000000000002" colorSpace="deviceRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="3wY-df-wkS"/>
@@ -31,38 +36,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJl-fY-Yy3">
-                                <rect key="frame" x="0.0" y="0.0" width="90" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJl-fY-Yy3">
+                                <rect key="frame" x="268" y="78" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="ZoZ-RM-rrt"/>
-                                    <constraint firstAttribute="height" constant="55" id="few-Qj-cQS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="20" maxX="20" maxY="20"/>
-                                <state key="normal" title="Library">
+                                <state key="normal" image="library">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="gCF-QW-41c" kind="push" id="0Oo-1t-juY"/>
+                                    <segue destination="gCF-QW-41c" kind="push" id="H09-cD-dcS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Gp-Dk-JTv">
                                 <rect key="frame" x="0.0" y="444" width="320" height="124"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.18431372549019609" green="0.19215686274509802" blue="0.18431372549019609" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.40486203119802838" blue="0.86541903018951416" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Ywc-pl-nhH"/>
                                     <constraint firstAttribute="height" constant="124" id="t8f-uD-zq6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <state key="normal" title="Record">
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
+                                <state key="normal" title="Hold to Record">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="disabled">
-                                    <color key="titleColor" red="0.19607843137254902" green="0.20000000000000001" blue="0.20784313725490194" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <state key="selected">
+                                    <color key="titleColor" white="0.9031313004" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="recordButtonPressedDown:" destination="vXZ-lx-hvc" eventType="touchDown" id="UcQ-ax-SxI"/>
@@ -70,7 +69,7 @@
                                     <action selector="recordButtonReleased:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xfN-qa-upK"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDu-BG-os0" customClass="LEPreviewContainerView">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDu-BG-os0" customClass="LEPreviewContainerView">
                                 <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -83,11 +82,24 @@
                                         <rect key="frame" x="142" y="141" width="37" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDK-Xv-CXQ">
-                                        <rect key="frame" x="260" y="276" width="60" height="44"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAR-6u-VrJ" userLabel="Discard">
+                                        <rect key="frame" x="-84" y="236" width="64" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <state key="normal" title="Save">
+                                        <state key="normal" image="nope">
+                                            <color key="titleColor" red="0.92156862750000001" green="0.92941176469999998" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="discardPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="q8L-nx-QJm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDK-Xv-CXQ" userLabel="Save">
+                                        <rect key="frame" x="340" y="236" width="64" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="save">
                                             <color key="titleColor" red="0.92156862745098034" green="0.92941176470588238" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -96,36 +108,6 @@
                                         </state>
                                         <connections>
                                             <action selector="savePressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ZEp-0T-3f1"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWi-jV-03N">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <state key="normal" title="Flip">
-                                            <color key="titleColor" red="0.92156862745098034" green="0.92941176470588238" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled">
-                                            <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="flipCameraPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wMq-6e-aVr"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uD5-sG-Crn">
-                                        <rect key="frame" x="0.0" y="276" width="90" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <state key="normal" title="Preview">
-                                            <color key="titleColor" red="0.92156862745098034" green="0.92941176470588238" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled">
-                                            <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="previewButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aSc-2k-gif"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -138,15 +120,23 @@
                                     <constraint firstAttribute="height" constant="320" id="xWj-7n-vju"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2KE-cL-jMe">
+                                <rect key="frame" x="20" y="81" width="32" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="rotate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="flipCameraPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sIe-xG-0Ku"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.87450987099999999" green="0.35294118520000001" blue="0.25490197539999998" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" red="0.1058823529" green="0.1137254902" blue="0.1058823529" alpha="0.90000000000000002" colorSpace="deviceRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0Gp-Dk-JTv" secondAttribute="trailing" id="2xG-Gw-9J1"/>
-                            <constraint firstItem="lJl-fY-Yy3" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="AzZ-xg-vfo"/>
                             <constraint firstItem="AE9-xn-d2X" firstAttribute="top" secondItem="0Gp-Dk-JTv" secondAttribute="bottom" id="TNf-mZ-tcP"/>
                             <constraint firstAttribute="centerX" secondItem="EDu-BG-os0" secondAttribute="centerX" id="dRS-k9-Coq"/>
                             <constraint firstAttribute="centerY" secondItem="EDu-BG-os0" secondAttribute="centerY" id="dYd-ix-pkl"/>
-                            <constraint firstItem="lJl-fY-Yy3" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="jQu-yb-hwY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ApJ-nc-Mdz"/>
@@ -156,8 +146,8 @@
                         <outlet property="button" destination="0Gp-Dk-JTv" id="573-Mc-xb9"/>
                         <outlet property="buttonHeightConstraint" destination="t8f-uD-zq6" id="Xv9-8b-2KZ"/>
                         <outlet property="buttonWidthConstraint" destination="Ywc-pl-nhH" id="XfK-jQ-1x4"/>
-                        <outlet property="flipButton" destination="yWi-jV-03N" id="LIn-aM-7w5"/>
-                        <outlet property="previewButton" destination="uD5-sG-Crn" id="Dji-7t-kdT"/>
+                        <outlet property="discardButton" destination="FAR-6u-VrJ" id="vb3-p6-ZFF"/>
+                        <outlet property="flipButton" destination="2KE-cL-jMe" id="55d-h6-KvG"/>
                         <outlet property="recordingView" destination="6KS-to-wm2" id="a7s-c7-KHz"/>
                         <outlet property="saveButton" destination="BDK-Xv-CXQ" id="kZ1-8l-pVo"/>
                     </connections>
@@ -170,53 +160,28 @@
         <scene sceneID="R0A-og-Hg7">
             <objects>
                 <tableViewController id="gCF-QW-41c" customClass="LEGIFLibraryViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="aOD-wt-Gs0">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="160" sectionHeaderHeight="22" sectionFooterHeight="22" id="aOD-wt-Gs0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.085873811140000006" green="0.085873811140000006" blue="0.085873811140000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexColor" red="0.085873811141304324" green="0.085873811141304324" blue="0.085873811141304324" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="0.085873811140000006" green="0.085873811140000006" blue="0.085873811140000006" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="entry" rowHeight="120" id="2gV-Qy-iyl" customClass="LEGIFLibraryEntryCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="120"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="entry" rowHeight="161" id="2gV-Qy-iyl" customClass="LEGIFLibraryEntryCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="161"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gV-Qy-iyl" id="iDE-qT-Fh8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mhv-2p-abL">
-                                            <rect key="frame" x="10" y="10" width="100" height="100"/>
+                                            <rect key="frame" x="0.0" y="-80" width="320" height="321"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Created" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N83-il-6gO">
-                                            <rect key="frame" x="129" y="20" width="170" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7XB-kr-MDG">
-                                            <rect key="frame" x="129" y="48" width="170" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Copy to Clipboard">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="copyToClipboardPressed:" destination="2gV-Qy-iyl" eventType="touchUpInside" id="bdY-Hn-xs4"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aut-JE-ccT">
-                                            <rect key="frame" x="129" y="78" width="170" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Upload to imgur.com">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="uploadToImgurPressed:" destination="2gV-Qy-iyl" eventType="touchUpInside" id="6ZS-wv-TCz"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.085873811140000006" green="0.085873811140000006" blue="0.085873811140000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="createdLabel" destination="N83-il-6gO" id="Ssx-90-J4F"/>
                                     <outlet property="previewImageView" destination="mhv-2p-abL" id="IPZ-rX-1ua"/>
                                 </connections>
                             </tableViewCell>
@@ -233,6 +198,12 @@
             <point key="canvasLocation" x="408" y="-53"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="library" width="24" height="24"/>
+        <image name="nope" width="24" height="24"/>
+        <image name="rotate" width="24" height="24"/>
+        <image name="save" width="24" height="24"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

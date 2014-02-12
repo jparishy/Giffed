@@ -18,4 +18,6 @@
 
 - (LEGIFLibraryEntry *)addEntryWithGIFData:(NSData *)GIFData error:(NSError **)error;
 
+- (void)deleteEntry:(LEGIFLibraryEntry *)entry;
+
 @end
